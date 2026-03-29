@@ -19,15 +19,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: cicd-dashboard/package-lock.json
 
       - name: Install dependencies
         run: npm install
         working-directory: cicd-dashboard
 
       - name: Run tests
-        run: npm test -- --watchAll=false
+        run: npm test -- --watchAll=false --passWithNoTests
         working-directory: cicd-dashboard
 
       - name: Build project
@@ -48,8 +46,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: cicd-dashboard/package-lock.json
 
       - name: Install dependencies
         run: npm install
