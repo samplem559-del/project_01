@@ -22,15 +22,15 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: cicd-dashboard/cicd-dashboard
+        working-directory: cicd-dashboard
 
       - name: Run tests
         run: npm test -- --watchAll=false --passWithNoTests
-        working-directory: cicd-dashboard/cicd-dashboard
+        working-directory: cicd-dashboard
 
       - name: Build project
         run: npm run build
-        working-directory: cicd-dashboard/cicd-dashboard
+        working-directory: cicd-dashboard
 
   deploy:
     name: Deploy to Firebase
@@ -49,11 +49,11 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: cicd-dashboard/cicd-dashboard
+        working-directory: cicd-dashboard
 
       - name: Build project
         run: npm run build
-        working-directory: cicd-dashboard/cicd-dashboard
+        working-directory: cicd-dashboard
 
       - name: Deploy to Firebase
         uses: FirebaseExtended/action-hosting-deploy@v0
