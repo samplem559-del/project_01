@@ -1,4 +1,3 @@
-
 name: CI/CD Pipeline - React App to Firebase
 
 on:
@@ -16,6 +15,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Debug directory structure
+        run: |
+          echo "Current directory:"
+          pwd
+          echo ""
+          echo "Files in root:"
+          ls -la
+          echo ""
+          echo "Looking for package.json files:"
+          find . -name "package.json" -type f
+          echo ""
+          echo "Looking for cicd-dashboard directory:"
+          find . -name "cicd-dashboard" -type d
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -23,15 +36,15 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: cicd-dashboard
+        working-directory: project_01/cicd-dashboard
 
       - name: Run tests
         run: npm test -- --watchAll=false --passWithNoTests
-        working-directory: cicd-dashboard
+        working-directory: project_01/cicd-dashboard
 
       - name: Build project
         run: npm run build
-        working-directory: cicd-dashboard
+        working-directory: project_01/cicd-dashboard
 
   deploy:
     name: Deploy to Firebase
@@ -43,6 +56,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Debug directory structure
+        run: |
+          echo "Current directory:"
+          pwd
+          echo ""
+          echo "Files in root:"
+          ls -la
+          echo ""
+          echo "Looking for package.json files:"
+          find . -name "package.json" -type f
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -50,11 +74,11 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: cicd-dashboard
+        working-directory: project_01/cicd-dashboard
 
       - name: Build project
         run: npm run build
-        working-directory: cicd-dashboard
+        working-directory: project_01/cicd-dashboard
 
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
@@ -63,4 +87,3 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           channelId: live
           projectId: your-firebase-project-id
-
