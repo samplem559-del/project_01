@@ -20,14 +20,16 @@ jobs:
           echo "Current directory:"
           pwd
           echo ""
-          echo "Files in root:"
+          echo "Directory contents:"
           ls -la
           echo ""
-          echo "Looking for package.json files:"
-          find . -name "package.json" -type f
-          echo ""
-          echo "Looking for cicd-dashboard directory:"
-          find . -name "cicd-dashboard" -type d
+          echo "Looking for cicd-dashboard:"
+          if [ -d "cicd-dashboard" ]; then
+            echo "✅ cicd-dashboard found at root"
+            ls -la cicd-dashboard/
+          else
+            echo "❌ cicd-dashboard not found at root"
+          fi
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -36,15 +38,15 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: project_01/cicd-dashboard
+        working-directory: cicd-dashboard
 
       - name: Run tests
         run: npm test -- --watchAll=false --passWithNoTests
-        working-directory: project_01/cicd-dashboard
+        working-directory: cicd-dashboard
 
       - name: Build project
         run: npm run build
-        working-directory: project_01/cicd-dashboard
+        working-directory: cicd-dashboard
 
   deploy:
     name: Deploy to Firebase
@@ -56,17 +58,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Debug directory structure
-        run: |
-          echo "Current directory:"
-          pwd
-          echo ""
-          echo "Files in root:"
-          ls -la
-          echo ""
-          echo "Looking for package.json files:"
-          find . -name "package.json" -type f
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -74,11 +65,11 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: project_01/cicd-dashboard
+        working-directory: cicd-dashboard
 
       - name: Build project
         run: npm run build
-        working-directory: project_01/cicd-dashboard
+        working-directory: cicd-dashboard
 
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
